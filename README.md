@@ -41,6 +41,12 @@ Also, if using a sandbox, set the endpoint:
 Alloy::Api.api_uri = 'https://sandbox.alloy.co/' # Be sure to include the trailing slash!
 ```
 
+The Alloy.co api methods are implemented by the Api class. Most take a set of options, including headers and body:
+
+```ruby
+Alloy::Api.parameters(method: 'get') # The default method is 'post' - this method will get required/optional parameters for running evaluations
+Alloy::Api.evaluations(body: { first_name: 'John', last_name: 'Smith' }, headers: { 'Alloy-Refresh-Cache': 'true' }) # Runs an evaluation. Headers can be set as well, but the Content-Type and Authorization are automatic
+```
 
 ## License
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
