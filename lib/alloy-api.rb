@@ -20,16 +20,32 @@ module Alloy
       @@api_secret = value
     end
 
+    def self.parameters(options={})
+      perform "parameters", options.merge(method: :get)
+    end
+
+    def self.entity_details(entity_id, options = {})
+      perform "entities/#{entity_id}", options.merge(method: :get)
+    end
+
+    def self.evaluation_details(entity_id, evaluation_id, options = {})
+      perform "entities/#{entity_id}/evaluations/#{evaluation_id}", options.merge(method: :get)
+    end
+
     def self.method_missing(m, *args, &block)
-      options = args.any? ? args[0] : {}
+      perform(m, args[0] || {})
+    end
+
+    def self.perform(path, options={})
       method = options[:method] || "post"
-      uri = "#{@@api_uri}#{m}"
+      uri = "#{@@api_uri}#{path}"
       headers = {
         "Content-Type" => "application/json",
         "Authorization" => auth_param
       }.merge(options[:headers].to_h)
-
-      JSON.parse(HTTParty.send(method, uri, {headers: headers, body: (options[:body] || {}).to_json}).body)
+      response = HTTParty.send(method, uri, {headers: headers, body: (options[:body] || {}).to_json})
+      return response if options[:raw]
+      JSON.parse(response.body)
       # TODO: Error handling
     end
 

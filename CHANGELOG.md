@@ -1,3 +1,16 @@
+## 0.0.5 / 2020-06-11
+
+* Method corrections
+* Add entity_details
+
+## 0.0.4 / 2020-06-11
+
+* Allow raw output
+
+## 0.0.3 / 2020-06-11
+
+* Allow calling the API by path
+
 ## 0.0.2 / 2020-06-10
 
 * Change gem homepage/repo page
