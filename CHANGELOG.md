@@ -1,3 +1,8 @@
+## 0.0.6 / 2020-06-18
+
+* Allow body stream
+* Allow multiple endpoints
+
 ## 0.0.5 / 2020-06-11
 
 * Method corrections

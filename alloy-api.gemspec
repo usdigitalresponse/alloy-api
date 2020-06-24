@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name                  = 'alloy-api'
   s.required_ruby_version = '>= 2.0.0'
-  s.version               = '0.0.5'
+  s.version               = '0.0.6'
   s.summary               = 'A wrapper for the Alloy.co API'
   s.authors               = ['Matthew Schultz']
   s.files                 = ['lib/alloy-api.rb', 'LICENSE', 'README.md', 'CHANGELOG.md']

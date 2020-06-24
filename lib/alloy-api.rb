@@ -4,20 +4,26 @@ require 'json'
 
 module Alloy
   class Api
-    @@api_uri     = 'https://api.alloy.co/'
-    @@api_token   = nil
-    @@api_secret  = nil
+    @@api_endpoints = { main: { uri: 'https://api.alloy.co/' } }
 
     def self.api_uri=(value)
-      @@api_uri = value
+      @@api_endpoints[:main][:uri] = value
     end
 
     def self.api_token=(value)
-      @@api_token = value
+      @@api_endpoints[:main][:token] = value
     end
 
     def self.api_secret=(value)
-      @@api_secret = value
+      @@api_endpoints[:main][:secret] = value
+    end
+
+    def self.set_endpoint(name, token, secret, uri = 'https://api.alloy.co/')
+      @@api_endpoints[name] = {
+        uri: uri,
+        token: token,
+        secret: secret
+      }
     end
 
     def self.parameters(options={})
@@ -38,12 +44,17 @@ module Alloy
 
     def self.perform(path, options={})
       method = options[:method] || "post"
-      uri = "#{@@api_uri}#{path}"
+      endpoint = options[:endpoint] || :main
+      uri = "#{@@api_endpoints[endpoint][:uri]}#{path}"
       headers = {
         "Content-Type" => "application/json",
-        "Authorization" => auth_param
+        "Authorization" => auth_param(endpoint)
       }.merge(options[:headers].to_h)
-      response = HTTParty.send(method, uri, {headers: headers, body: (options[:body] || {}).to_json})
+      if options[:body_stream].present?
+        response = HTTParty.send(method, uri, { headers: headers, body_stream: options[:body_stream] })
+      else
+        response = HTTParty.send(method, uri, {headers: headers, body: (options[:body] || {}).to_json})
+      end
       return response if options[:raw]
       JSON.parse(response.body)
       # TODO: Error handling
@@ -51,12 +62,8 @@ module Alloy
 
     private
 
-    def self.auth_param
-      "Basic #{encoded}"
-    end
-
-    def self.encoded
-      Base64.strict_encode64 "#{@@api_token}:#{@@api_secret}"
+    def self.auth_param(endpoint)
+      "Basic #{Base64.strict_encode64("#{@@api_endpoints[endpoint][:token]}:#{@@api_endpoints[endpoint][:secret]}")}"
     end
   end
 end
