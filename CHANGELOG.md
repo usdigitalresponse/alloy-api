@@ -1,3 +1,7 @@
+## 0.0.7 / 2020-06-29
+
+* Support non-JSON body encoding
+
 ## 0.0.6 / 2020-06-18
 
 * Allow body stream

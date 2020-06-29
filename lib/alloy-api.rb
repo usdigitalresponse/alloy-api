@@ -46,6 +46,7 @@ module Alloy
       method = options[:method] || "post"
       endpoint = options[:endpoint] || :main
       uri = "#{@@api_endpoints[endpoint][:uri]}#{path}"
+      body_encoding = options[:body_encoding] || :to_json
       headers = {
         "Content-Type" => "application/json",
         "Authorization" => auth_param(endpoint)
@@ -53,7 +54,7 @@ module Alloy
       if options[:body_stream].present?
         response = HTTParty.send(method, uri, { headers: headers, body_stream: options[:body_stream] })
       else
-        response = HTTParty.send(method, uri, {headers: headers, body: (options[:body] || {}).to_json})
+        response = HTTParty.send(method, uri, { headers: headers, body: (options[:body] || {}).send(body_encoding) })
       end
       return response if options[:raw]
       JSON.parse(response.body)

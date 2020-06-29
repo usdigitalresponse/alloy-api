@@ -53,6 +53,7 @@ The Alloy.co api methods are implemented by the Api class. Most take a set of op
 Alloy::Api.parameters(method: 'get') # The default method is 'post' - this method will get required/optional parameters for running evaluations
 Alloy::Api.evaluations(body: { first_name: 'John', last_name: 'Smith' }, headers: { 'Alloy-Refresh-Cache': 'true' }) # Runs an evaluation. Headers can be set as well, but the Content-Type and Authorization are automatic
 Alloy::Api.parameters(method: 'get', endpoint: :other_endpoint) # use a different endpoint - allowing for multiple workflows to be used
+Alloy::Api.some_method(body: "hello world", body_encoding: :to_s) # use to_s on the body object instead of to_json. Important for non-json uploads
 ```
 
 ## License
