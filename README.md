@@ -1,3 +1,6 @@
+**⚠️ This codebase is no longer maintained! ⚠️** The `alloy-api` gem is still available from [RubyGems.org](https://rubygems.org/gems/alloy-api), but is no longer maintained and will not receive updates or bugfixes.
+
+
 # Alloy API
 A simple gem to wrap Alloy.co's API for doing KYC in ruby applications.
 
